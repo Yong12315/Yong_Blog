@@ -306,7 +306,19 @@ MATLAB 脚本中的 `ADDR_WIDTH` 应与 `LUT_PRECISION` 一致，`DATA_WIDTH` �
 
 该模块面向正的幅度或功率数据，不能直接处理有符号输入。若前级采用带小数位的定点功率格式，还需要在最终结果中减去输入定点缩放带来的 $F\log_2 2=F$ 偏移。
 
-## 9. 总结
+## 9. 工程源码
+
+- [`log2.v`](./Code/Vivado/log2.v)：顶层对数模块；
+- [`tb_log2.v`](./Code/Vivado/tb_log2.v)：对数模块 testbench；
+- [`Priencr.v`](./Code/Vivado/Priencr.v)：流水线优先编码器；
+- [`tb_Priencr.v`](./Code/Vivado/tb_Priencr.v)：优先编码器 testbench；
+- [`shiftreg.v`](./Code/Vivado/shiftreg.v)：原始输入对齐延迟；
+- [`rams_rom.v`](./Code/Vivado/rams_rom.v)：同步查找表 ROM；
+- [`Log2_Frac_Init.m`](./Code/MATLAB/Log2_Frac_Init.m)：ROM 初始化文件生成脚本。
+
+运行 RTL 仿真前，应先执行 MATLAB 脚本生成 `Log2_Frac_Init.mem`，再将生成的初始化文件加入 Vivado 工程或放到仿真器可访问的工作目录。
+
+## 10. 总结
 
 该 `log₂` 模块利用“最高有效位 + 规格化尾数查表”完成定点对数计算。整数部分由流水线优先编码器获得，小数部分通过 Block RAM 查表获得，在避免通用对数迭代和乘法运算的同时，实现了固定延迟和一拍一个数据的吞吐率。
 
