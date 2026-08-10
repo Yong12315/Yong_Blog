@@ -306,16 +306,7 @@ MATLAB 脚本中的 `ADDR_WIDTH` 应与 `LUT_PRECISION` 一致，`DATA_WIDTH` �
 
 该模块面向正的幅度或功率数据，不能直接处理有符号输入。若前级采用带小数位的定点功率格式，还需要在最终结果中减去输入定点缩放带来的 $F\log_2 2=F$ 偏移。
 
-## 9. 工程文件
-
-- [`log2.v`](./Code/Vivado/log2.v)：顶层对数模块；
-- [`Priencr.v`](./Code/Vivado/Priencr.v)：流水线优先编码器；
-- [`shiftreg.v`](./Code/Vivado/shiftreg.v)：原始输入对齐延迟；
-- [`rams_rom.v`](./Code/Vivado/rams_rom.v)：同步查找表 ROM；
-- [`tb_log2.v`](./Code/Vivado/tb_log2.v)：连续递增输入 testbench；
-- [`Log2_Frac_Init.m`](./Code/MATLAB/Log2_Frac_Init.m)：ROM 初始化文件生成脚本。
-
-## 10. 总结
+## 9. 总结
 
 该 `log₂` 模块利用“最高有效位 + 规格化尾数查表”完成定点对数计算。整数部分由流水线优先编码器获得，小数部分通过 Block RAM 查表获得，在避免通用对数迭代和乘法运算的同时，实现了固定延迟和一拍一个数据的吞吐率。
 
