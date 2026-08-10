@@ -13,6 +13,7 @@
 ### 数字信号处理
 
 * [基于 FPGA 的幅度谱计算与仿真验证](./FPGA/Magnitude_Spectrum/Magnitude_Spectrum.md)
+* [基于查找表的 FPGA 定点 log₂ 计算模块设计](./FPGA/Log2_LUT/Log2_LUT.md)
 * [基于 FIR Compiler IP 的多相抽取滤波器设计](./FPGA/Xilinx_Polyphase_Decimation_Filter/Xilinx_Polyphase_Decimation_Filter.md)
 * [基于 CORDIC 优化的 FPGA 数字变频设计](./FPGA/CORDIC_Based_Frequency_Shift/CORDIC_Based_Frequency_Shift.md)
 
