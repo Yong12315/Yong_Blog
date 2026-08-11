@@ -57,14 +57,7 @@ RSA 认证使用两级密钥体系：
 
 器件的 PS eFUSE 保存 PPK 的 SHA-256 哈希值，而不是私钥。启动镜像中携带 PPK、SPK、SPK 签名和分区签名。验证关系如下：
 
-```mermaid
-flowchart LR
-    A["PS eFUSE 中的 PPK Hash"] --> B["验证启动镜像中的 PPK"]
-    B --> C["PPK 验证 SPK Signature"]
-    C --> D["得到可信 SPK"]
-    D --> E["SPK 验证 Partition Signature"]
-    E --> F["可信 FSBL / Bitstream / 软件分区"]
-```
+![RSA 认证证书结构](./Images/Image_03.png)
 
 主私钥 PSK 和次私钥 SSK 只能保存在受控签名环境中，不能写入启动镜像、源码仓库或生产设备。PPK/SPK 的完整结构和认证证书格式可参考 [UG821：Authentication Overview](https://docs.amd.com/r/en-US/ug821-zynq-7000-swdev/Authentication-Overview) 与 [UG821：Authentication Certificate](https://docs.amd.com/r/en-US/ug821-zynq-7000-swdev/Authentication-Certificate)。
 
@@ -82,26 +75,15 @@ flowchart LR
 
 Zynq-7000 的主安全启动会使用 PL 内的 AES/HMAC 硬核，因此解密期间 PL 必须处于供电状态。[UG585：Master Secure Boot](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Master-Secure-Boot)
 
+![Zynq-7000 安全启动相关硬件](./Images/Image_01.png)
+
 ## 3. 加密、认证和镜像结构
 
 ### 3.1 AES/HMAC 的处理顺序
 
 在 Bootgen 侧，软件分区先生成 HMAC，再进行 AES 加密；在器件侧则以相反方向处理：先进行 RSA 认证（若启用），再进行 AES 解密，最后验证 HMAC。AES 会同时包裹分区数据、HMAC 签名和 HMAC 密钥。[XAPP1175：Secure Boot of Zynq-7000 SoC](https://docs.amd.com/v/u/en-US/xapp1175_zynq_secure_boot)
 
-```mermaid
-flowchart LR
-    subgraph Build["构建端"]
-        A["原始分区"] --> B["HMAC-SHA-256"]
-        B --> C["AES-256-CBC 加密"]
-        C --> D["可选 RSA 签名"]
-    end
-    subgraph Device["器件启动端"]
-        E["可选 RSA 验证"] --> F["AES 解密"]
-        F --> G["HMAC 验证"]
-        G --> H["运行可信分区"]
-    end
-    D --> E
-```
+![安全启动镜像中的 AES、HMAC 与 RSA 关系](./Images/Image_02.png)
 
 ### 3.2 哪些分区需要保护
 
@@ -115,20 +97,19 @@ flowchart LR
 
 要保护链路后端的某个组件，前面的加载器也必须可信。只给应用程序签名，却让未认证的 U-Boot 负责加载它，攻击者仍可能替换 U-Boot 绕过检查。
 
-```mermaid
-flowchart LR
-    A["BootROM"] --> B["FSBL"]
-    B --> C["Bitstream"]
-    B --> D["U-Boot / 裸机程序"]
-    D --> E["Linux / RTOS"]
-    E --> F["Applications"]
-```
+![最严格保护场景下的分区策略](./Images/Image_05.png)
+
+![安全启动信任链](./Images/Image_06.png)
 
 每个箭头都代表一次信任传递。安全策略不一定要求所有分区都加密，但负责加载和验证后级组件的代码必须位于可信链中。
 
 ## 4. 安全启动流程
 
 Zynq-7000 的安全启动可以按职责划分为三个阶段。
+
+![Zynq-7000 启动阶段总览](./Images/Image_07.png)
+
+![Zynq-7000 安全启动框图](./Images/Image_08.png)
 
 ### 4.1 Stage 0：BootROM
 
@@ -177,6 +158,20 @@ Bootgen 根据 BIF 描述生成 Boot Header、分区表和分区数据。每个�
 4. 如果使用 RSA，在 FSBL 编译符号中启用对应的 RSA 支持；
 5. 调试阶段可以打开 FSBL 日志，但量产版本不应输出密钥或敏感安全状态。
 
+![Vivado 导出的 system_wrapper.hdf](./Images/Image_09.png)
+
+![SDK 中导入的硬件平台](./Images/Image_10.png)
+
+![新建 Application Project](./Images/Image_11.png)
+
+![Application Project 配置](./Images/Image_12.png)
+
+![选择 Zynq FSBL 模板](./Images/Image_13.png)
+
+![生成的 FSBL 与 BSP 工程](./Images/Image_14.png)
+
+![打开 FSBL 工程属性](./Images/Image_15.png)
+
 原工程使用过以下调试与 RSA 相关宏：
 
 ```text
@@ -185,6 +180,8 @@ FSBL_DEBUG_GENERAL
 FSBL_DEBUG_INFO
 RSA_SUPPORT
 ```
+
+![FSBL 编译符号配置](./Images/Image_16.png)
 
 宏名称和启用方式与具体 SDK 版本有关，升级工具后应重新核对 FSBL 文档。
 
@@ -214,6 +211,22 @@ bootgen -arch zynq -image secure.bif -w -o BOOT.bin
 Bootgen 可以生成 `.nky`、RSA 密钥和签名中间文件，也支持离线签名流程。官方命令参数见 [UG821：Bootgen Command Options](https://docs.amd.com/r/en-US/ug821-zynq-7000-swdev/Bootgen-Command-Options)。
 
 > `.nky`、PSK、SSK 和任何串口打印出的 AES/HMAC 内容都属于秘密材料。不要提交到 Git、网盘公开目录或普通构建日志。建议将密钥生成与固件构建分离，并限制签名工作站访问权限。
+
+![SDK 中打开 Create Boot Image](./Images/Image_17.png)
+
+![选择 BIF 配置和 BOOT.bin 输出位置](./Images/Image_18.png)
+
+![启用镜像加密](./Images/Image_19.png)
+
+![选择 eFUSE 密钥源并配置器件型号](./Images/Image_20.png)
+
+![为启动镜像添加分区](./Images/Image_22.png)
+
+![对 FSBL、Bitstream 和应用分区启用加密](./Images/Image_23.png)
+
+![生成的 BOOT.bin、BIF 与 NKY 文件](./Images/Image_24.png)
+
+![原工程 NKY 文件中的 AES、StartCBC 与 HMAC 字段](./Images/Image_25.png)
 
 ### 5.3 先用可恢复方案验证
 
@@ -249,7 +262,23 @@ Bootgen 可以生成 `.nky`、RSA 密钥和签名中间文件，也支持离线�
 6. 先读取并核对器件状态，再执行一次性烧录；
 7. 烧录后立即验证密钥状态和安全镜像启动结果。
 
-严禁在源码中提交真实密钥。下面只展示控制项名称，不包含任何密钥值：
+开发调试阶段也可以通过 Vivado Hardware Manager 的 eFUSE 界面完成烧录：
+
+![JTAG 模式下连接 Zynq 器件](./Images/Image_26.png)
+
+![打开 Program eFUSE Registers](./Images/Image_27.png)
+
+![选择 AES 密钥文件](./Images/Image_28.png)
+
+![配置 eFUSE 控制寄存器](./Images/Image_29.png)
+
+![eFUSE 烧录完成后的控制台信息](./Images/Image_30.png)
+
+量产程序通常基于 XilSKey 示例实现。下面的代码块只列出控制项名称；真实密钥不应硬编码进公开源码：
+
+![在 BSP 中加入 XilSKey 库](./Images/Image_31.png)
+
+![导入 eFUSE 编程示例工程](./Images/Image_32.png)
 
 ```c
 #define XSK_EFUSEPL_DRIVER
@@ -260,6 +289,26 @@ Bootgen 可以生成 `.nky`、RSA 密钥和签名中间文件，也支持离线�
 #define XSK_EFUSEPL_DISABLE_USER_KEY_READ          TRUE
 #define XSK_EFUSEPL_BBRAM_KEY_DISABLE              TRUE
 ```
+
+![启用 PL eFUSE 驱动](./Images/Image_33.png)
+
+![原工程中写入 XSK_EFUSEPL_AES_KEY 的 AES 值](./Images/Image_34.png)
+
+![启用 AES 与 User Low Key 烧录](./Images/Image_35.png)
+
+![禁止读取 AES Key](./Images/Image_36.png)
+
+![禁止读取 User Key](./Images/Image_37.png)
+
+![禁止在安全启动中使用 BBRAM Key](./Images/Image_38.png)
+
+![配置 MIO 与 JTAG 信号映射](./Images/Image_39.png)
+
+![使用 Bootgen 创建 eFUSE 烧录镜像](./Images/Image_40.png)
+
+![生成的 eFUSE 烧录文件](./Images/Image_41.png)
+
+![串口输出的 eFUSE 状态与原工程 AES Key](./Images/Image_42.png)
 
 这些宏和位定义可能随 BSP 版本变化。烧录程序必须依据当前 `xilskey` 头文件、器件勘误和官方指南复核，不能仅凭旧项目截图操作。
 
@@ -272,7 +321,17 @@ Bootgen 可以生成 `.nky`、RSA 密钥和签名中间文件，也支持离线�
 5. 使用错误密钥镜像、被修改镜像和未加密镜像做负向测试；
 6. 确认安全失败时系统进入预期状态，而不是继续执行未验证代码。
 
+![通过 SDK 将 BOOT.bin 写入 QSPI](./Images/Image_43.png)
+
+![安全启动日志：FSBL 与分区信息](./Images/Image_44.png)
+
+![安全启动日志：加密分区加载信息](./Images/Image_45.png)
+
+![安全启动日志：PCAP 与分区状态](./Images/Image_46.png)
+
 对于 Multiboot，XAPP1175 要求 update image 和 golden image 的地址位于 32 KB 的整数倍。这个要求不能泛化成“所有 QSPI 认证镜像都必须固定放在 32 KB 偏移”。镜像位置应按具体启动模式、BIF 和官方文档设计。
+
+![原文关于 QSPI 32 KB 地址的说明](./Images/Image_04.png)
 
 ## 6. eFUSE 控制位的风险
 
@@ -286,17 +345,7 @@ Zynq-7000 的部分 eFUSE 控制位具有永久效果：
 
 根据 UG585，某些 JTAG、DFT 或强制安全启动位一旦烧录，会影响 AMD 的 RMA 测试能力。控制位的具体作用和组合关系应以 [UG585：PL eFUSE Settings](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PL-eFUSE-Settings) 与 [UG585：PS eFUSE Settings](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/PS-eFUSE-Settings) 为准。
 
-推荐的量产顺序是：
-
-```mermaid
-flowchart LR
-    A["验证普通启动"] --> B["验证安全镜像"]
-    B --> C["烧录 AES Key / PPK Hash"]
-    C --> D["再次验证安全启动"]
-    D --> E["烧录读保护与强制安全位"]
-    E --> F["最后评估并关闭 JTAG / DFT"]
-    F --> G["归档设备、密钥和镜像哈希"]
-```
+推荐的量产顺序是：验证普通启动 → 验证安全镜像 → 烧录 AES Key/PPK Hash → 再次验证安全启动 → 烧录读保护与强制安全位 → 最后评估并关闭 JTAG/DFT → 归档设备、密钥和镜像哈希。
 
 把不可逆控制位放到流程最后，可以降低因密钥、镜像或板级电源问题导致整批器件失效的风险。
 
