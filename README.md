@@ -26,6 +26,10 @@
 * [Zynq PL 数据写入 PS DDR 的环形缓存机制](./FPGA/Zynq_PL_to_PS_DDR_Ring_Buffer/Zynq_PL_to_PS_DDR_Ring_Buffer.md)
 * [Vivado SRIO Gen2 IP 解析](./FPGA/Vivado_SRIO_Gen2_IP/Vivado_SRIO_Gen2_IP.md)
 
+### 安全与可靠性
+
+* [Zynq-7000 安全启动与防护策略：AES、RSA 与 eFUSE 部署](./FPGA/Zynq7000_Secure_Boot/Zynq7000_Secure_Boot.md)
+
 ### 时序与工程实践
 
 * [FPGA 端口静态时序分析](./FPGA/FPGA_IO_Timing_Analysis/FPGA_IO_Timing_Analysis.md)
