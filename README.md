@@ -25,6 +25,7 @@
 
 * [Zynq PL 数据写入 PS DDR 的环形缓存机制](./FPGA/Zynq_PL_to_PS_DDR_Ring_Buffer/Zynq_PL_to_PS_DDR_Ring_Buffer.md)
 * [Vivado SRIO Gen2 IP 解析](./FPGA/Vivado_SRIO_Gen2_IP/Vivado_SRIO_Gen2_IP.md)
+* [Xilinx AXI 1G/2.5G Ethernet Subsystem IP 数据流解析](./FPGA/Xilinx_AXI_Ethernet_Subsystem_IP/Xilinx_AXI_Ethernet_Subsystem_IP.md)
 
 ### 安全与可靠性
 
