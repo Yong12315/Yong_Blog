@@ -1,3 +1,5 @@
+**简体中文** | [English](./Xilinx_Polyphase_Decimation_Filter_EN.md)
+
 # 基于 FIR Compiler IP 的多相抽取滤波器设计
 
 在 FPGA 信号处理中，降采样是一个很常见的需求。抽取滤波器可以在降低采样率的同时完成抗混叠低通滤波。Xilinx FIR Compiler IP 支持多相抽取结构，能够将滤波与抽取过程合并实现，适合用于高效的 FPGA 降采样设计。

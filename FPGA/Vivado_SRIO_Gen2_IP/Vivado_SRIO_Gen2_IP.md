@@ -1,3 +1,5 @@
+**简体中文** | [English](./Vivado_SRIO_Gen2_IP_EN.md)
+
 # Vivado SRIO Gen2 IP 解析
 
 ## 1 背景

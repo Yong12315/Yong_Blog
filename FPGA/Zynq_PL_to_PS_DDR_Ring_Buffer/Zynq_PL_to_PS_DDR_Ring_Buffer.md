@@ -1,3 +1,5 @@
+**简体中文** | [English](./Zynq_PL_to_PS_DDR_Ring_Buffer_EN.md)
+
 # Zynq PL 数据直写 PS DDR 的环形缓存机制
 
 在 Zynq 数据采集系统中，PL 产生的数据通常需要送入 PS DDR，再由 ARM 软件读取和处理。这里真正需要解决的问题不是一次 AXI 写操作，而是如何让 PL 连续写入、PS 独立读取，同时避免双方访问同一帧。

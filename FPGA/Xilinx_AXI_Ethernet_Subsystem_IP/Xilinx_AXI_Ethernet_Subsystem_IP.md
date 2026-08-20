@@ -1,3 +1,5 @@
+**简体中文** | [English](./Xilinx_AXI_Ethernet_Subsystem_IP_EN.md)
+
 # Xilinx AXI 1G/2.5G Ethernet Subsystem IP 数据流解析
 
 Xilinx AXI 1G/2.5G Ethernet Subsystem 在用户侧采用 32 bit AXI4-Stream 接口传输以太网帧。它与普通的单路 AXI4-Stream 数据通道不同：发送方向把控制信息与帧数据分开，接收方向把状态信息与帧数据分开。因此，不能只关注 `TDATA`，还必须保证同一帧的控制流、状态流和数据流在时序上严格对应。
