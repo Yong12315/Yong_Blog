@@ -210,13 +210,13 @@ Bootgen 根据 BIF 描述生成 Boot Header、分区表和分区数据。每个�
 
 **步骤 1：在 Vivado 中导出硬件描述文件。**
 
-<p align="center"><a href="./Images/Image_09.png"><img src="./Images/Image_09.png" alt="Vivado 导出的 system_wrapper.hdf" width="600"></a></p>
+<p align="left"><a href="./Images/Image_09.png"><img src="./Images/Image_09.png" alt="Vivado 导出的 system_wrapper.hdf" width="600"></a></p>
 
 `system_wrapper.hdf` 是 Vivado 2018.3 导出的硬件描述文件，其中包含 PS 配置、外设和地址映射等信息。SDK 需要以该文件为基础建立硬件平台，后续生成的 FSBL 才能与当前硬件设计匹配。
 
 **步骤 2：在 SDK 中导入硬件平台。**
 
-<p align="center"><a href="./Images/Image_10.png"><img src="./Images/Image_10.png" alt="SDK 中导入的硬件平台"></a></p>
+<p align="left"><a href="./Images/Image_10.png"><img src="./Images/Image_10.png" alt="SDK 中导入的硬件平台"></a></p>
 
 将 HDF 导入 SDK 后，会生成对应的 Hardware Platform。创建 FSBL 时应选择这个平台，避免使用其他工程或旧版本硬件配置。
 
@@ -224,25 +224,25 @@ Bootgen 根据 BIF 描述生成 Boot Header、分区表和分区数据。每个�
 
 **步骤 3：新建 Application Project。**
 
-<p align="center"><a href="./Images/Image_11.png"><img src="./Images/Image_11.png" alt="新建 Application Project" width="760"></a></p>
+<p align="left"><a href="./Images/Image_11.png"><img src="./Images/Image_11.png" alt="新建 Application Project" width="760"></a></p>
 
 如红框所示，在 SDK 菜单中依次选择 **File → New → Application Project**，开始创建 FSBL 应用工程。
 
 **步骤 4：设置 FSBL 工程和 BSP。**
 
-<p align="center"><a href="./Images/Image_12.png"><img src="./Images/Image_12.png" alt="Application Project 配置" width="600"></a></p>
+<p align="left"><a href="./Images/Image_12.png"><img src="./Images/Image_12.png" alt="Application Project 配置" width="600"></a></p>
 
 工程名称填写 `FSBL`，操作系统平台选择 `standalone`，处理器选择 `ps7_cortexa9_0`。同时选择 **Create New**，为 FSBL 新建配套的 `FSBL_bsp` 板级支持包，然后点击 **Finish**。
 
 **步骤 5：选择 Zynq FSBL 模板。**
 
-<p align="center"><a href="./Images/Image_13.png"><img src="./Images/Image_13.png" alt="选择 Zynq FSBL 模板" width="600"></a></p>
+<p align="left"><a href="./Images/Image_13.png"><img src="./Images/Image_13.png" alt="选择 Zynq FSBL 模板" width="600"></a></p>
 
 在模板列表中选择 **Zynq FSBL**。SDK 会据此生成适用于 Zynq-7000 的第一阶段启动加载程序，而不是创建普通的空白裸机工程。
 
 **完成检查：确认 FSBL 与 BSP 已生成。**
 
-<p align="center"><a href="./Images/Image_14.png"><img src="./Images/Image_14.png" alt="生成的 FSBL 与 BSP 工程"></a></p>
+<p align="left"><a href="./Images/Image_14.png"><img src="./Images/Image_14.png" alt="生成的 FSBL 与 BSP 工程"></a></p>
 
 创建完成后，Project Explorer 中应同时出现 FSBL 应用工程和对应的 BSP：前者包含启动流程源码，后者提供器件驱动、库和硬件参数。
 
@@ -250,7 +250,7 @@ Bootgen 根据 BIF 描述生成 Boot Header、分区表和分区数据。每个�
 
 **步骤 6：打开 FSBL 工程属性。**
 
-<p align="center"><a href="./Images/Image_15.png"><img src="./Images/Image_15.png" alt="打开 FSBL 工程属性" width="760"></a></p>
+<p align="left"><a href="./Images/Image_15.png"><img src="./Images/Image_15.png" alt="打开 FSBL 工程属性" width="760"></a></p>
 
 右击 FSBL 工程并选择 **Properties**，进入编译选项页面。下一步在编译器的 Symbols 页面配置调试宏；只有启用 RSA 时才需要加入 RSA 支持宏。
 
@@ -263,7 +263,7 @@ FSBL_DEBUG_INFO
 RSA_SUPPORT
 ```
 
-<p align="center"><a href="./Images/Image_16.png"><img src="./Images/Image_16.png" alt="FSBL 编译符号配置" width="760"></a></p>
+<p align="left"><a href="./Images/Image_16.png"><img src="./Images/Image_16.png" alt="FSBL 编译符号配置" width="760"></a></p>
 
 红框中的 `DEBUG`、`FSBL_DEBUG_GENERAL` 和 `FSBL_DEBUG_INFO` 用于输出不同级别的启动日志；`RSA_SUPPORT` 用于编译 FSBL 的 RSA 认证支持。如果项目只采用 AES/HMAC 加密而不启用 RSA，可以不添加 `RSA_SUPPORT`。
 
@@ -275,55 +275,55 @@ RSA_SUPPORT
 
 **步骤 1：打开 Create Boot Image。**
 
-<p align="center"><a href="./Images/Image_17.png"><img src="./Images/Image_17.png" alt="SDK 中打开 Create Boot Image"></a></p>
+<p align="left"><a href="./Images/Image_17.png"><img src="./Images/Image_17.png" alt="SDK 中打开 Create Boot Image"></a></p>
 
 在 SDK 菜单中选择 **Xilinx → Create Boot Image**，打开 Bootgen 的图形化配置界面。该界面最终仍会生成 BIF，并调用 Bootgen 组装启动镜像。
 
 **步骤 2：设置输出路径。**
 
-<p align="center"><a href="./Images/Image_18.png"><img src="./Images/Image_18.png" alt="选择 BIF 配置和 BOOT.bin 输出位置" width="600"></a></p>
+<p align="left"><a href="./Images/Image_18.png"><img src="./Images/Image_18.png" alt="选择 BIF 配置和 BOOT.bin 输出位置" width="600"></a></p>
 
 在 **Basic** 页面确认 Architecture 为 `Zynq`，分别设置 BIF 文件和最终 `BOOT.bin` 的输出路径。此时分区列表为空，后续需要按启动顺序逐个加入 FSBL、Bitstream 和应用程序。
 
 **步骤 3：启用 Encryption。**
 
-<p align="center"><a href="./Images/Image_19.png"><img src="./Images/Image_19.png" alt="启用镜像加密" width="600"></a></p>
+<p align="left"><a href="./Images/Image_19.png"><img src="./Images/Image_19.png" alt="启用镜像加密" width="600"></a></p>
 
 切换到 **Security → Encryption**，勾选 **Use Encryption**。启用后，界面才会开放 AES 密钥文件、器件型号和 Key store 等安全选项。
 
 **步骤 4A：已有 NKY 时导入密钥文件。**
 
-<p align="center"><a href="./Images/Image_19_KeyFile.png"><img src="./Images/Image_19_KeyFile.png" alt="导入已有 AES 密钥文件并选择 eFUSE 密钥源" width="600"></a></p>
+<p align="left"><a href="./Images/Image_19_KeyFile.png"><img src="./Images/Image_19_KeyFile.png" alt="导入已有 AES 密钥文件并选择 eFUSE 密钥源" width="600"></a></p>
 
 如果已有 `.nky` 文件，在 **Key file** 中选择该文件，并将 **Key store** 设为 `EFUSE`。生成镜像所用 AES 密钥必须与目标器件 PL eFUSE 中烧录的密钥一致。
 
 **步骤 4B：没有 NKY 时由 Bootgen 生成。**
 
-<p align="center"><a href="./Images/Image_20.png"><img src="./Images/Image_20.png" alt="选择 eFUSE 密钥源并配置器件型号" width="600"></a></p>
+<p align="left"><a href="./Images/Image_20.png"><img src="./Images/Image_20.png" alt="选择 eFUSE 密钥源并配置器件型号" width="600"></a></p>
 
 如果还没有 `.nky` 文件，可以将 **Key file** 留空，填写准确的器件型号并选择 `EFUSE`。创建镜像时 Bootgen 会生成新的密钥文件，器件型号必须与实际 Zynq 芯片匹配。
 
 **步骤 5：加入并配置启动分区。**
 
-<p align="center"><a href="./Images/Image_22.png"><img src="./Images/Image_22.png" alt="为启动镜像添加分区" width="600"></a></p>
+<p align="left"><a href="./Images/Image_22.png"><img src="./Images/Image_22.png" alt="为启动镜像添加分区" width="600"></a></p>
 
 点击右侧 **Add** 添加启动分区。FSBL 的 Partition type 应设为 `bootloader`，并在 Encryption 中选择 `aes`；随后用同样方式加入 Bitstream 和应用程序。
 
 **步骤 6：检查分区顺序并创建镜像。**
 
-<p align="center"><a href="./Images/Image_23.png"><img src="./Images/Image_23.png" alt="对 FSBL、Bitstream 和应用分区启用加密" width="600"></a></p>
+<p align="left"><a href="./Images/Image_23.png"><img src="./Images/Image_23.png" alt="对 FSBL、Bitstream 和应用分区启用加密" width="600"></a></p>
 
 分区列表中的 `Encrypted` 列应显示三个分区均为 `aes`，并保证 FSBL 位于第一项。核对文件路径、分区顺序和安全属性后，再点击 **Create Image**。
 
 **步骤 7：检查输出文件。**
 
-<p align="center"><a href="./Images/Image_24.png"><img src="./Images/Image_24.png" alt="生成的 BOOT.bin、BIF 与 NKY 文件" width="600"></a></p>
+<p align="left"><a href="./Images/Image_24.png"><img src="./Images/Image_24.png" alt="生成的 BOOT.bin、BIF 与 NKY 文件" width="600"></a></p>
 
 生成完成后，输出目录中会包含启动镜像、BIF 配置和 `.nky` 密钥文件：`BOOT.bin` 用于写入启动介质，BIF 记录镜像组成，NKY 保存本次加密所需的参数。
 
 **检查 NKY：确认密钥参数与本次 BOOT.bin 对应。**
 
-<p align="center"><a href="./Images/Image_25.png"><img src="./Images/Image_25.png" alt="原工程 NKY 文件中的 AES、StartCBC 与 HMAC 字段" width="760"></a></p>
+<p align="left"><a href="./Images/Image_25.png"><img src="./Images/Image_25.png" alt="原工程 NKY 文件中的 AES、StartCBC 与 HMAC 字段" width="760"></a></p>
 
 NKY 中的 `Key 0` 是 AES-256 密钥，`StartCBC` 是 CBC 模式使用的初始值，`HMAC` 字段用于生成分区的 HMAC 签名。这组参数共同对应当前生成的 `BOOT.bin`。
 
@@ -335,31 +335,31 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 **步骤 1：通过 JTAG 连接并选中目标器件。**
 
-<p align="center"><a href="./Images/Image_26.png"><img src="./Images/Image_26.png" alt="JTAG 模式下连接 Zynq 器件" width="480"></a></p>
+<p align="left"><a href="./Images/Image_26.png"><img src="./Images/Image_26.png" alt="JTAG 模式下连接 Zynq 器件" width="480"></a></p>
 
 在 Hardware Manager 中通过 JTAG 连接目标板，设备树中应能识别 `arm_dap_0` 和目标 Zynq 器件。图中红框标出了本次操作的 `xc7z020_1`。
 
 **步骤 2：打开 eFUSE 编程向导。**
 
-<p align="center"><a href="./Images/Image_27.png"><img src="./Images/Image_27.png" alt="打开 Program eFUSE Registers" width="760"></a></p>
+<p align="left"><a href="./Images/Image_27.png"><img src="./Images/Image_27.png" alt="打开 Program eFUSE Registers" width="760"></a></p>
 
 依次打开 **Hardware Manager**，右击目标 Zynq 器件并选择 **Program eFUSE Registers**。该入口用于直接配置器件的一次性 eFUSE 资源。
 
 **步骤 3：载入与 BOOT.bin 匹配的 NKY。**
 
-<p align="center"><a href="./Images/Image_28.png"><img src="./Images/Image_28.png" alt="选择 AES 密钥文件" width="760"></a></p>
+<p align="left"><a href="./Images/Image_28.png"><img src="./Images/Image_28.png" alt="选择 AES 密钥文件" width="760"></a></p>
 
 勾选 **Enable AES key programming**，选择生成 `BOOT.bin` 时使用的 `.nky` 文件。工具会解析并显示其中的 AES Key。该页面同时提示编程 AES Key 会涉及部分 USER 位，因此进入下一步前还要核对 `USER[7:0]` 等字段是否符合产品定义。
 
 **步骤 4：选择要永久写入的控制位。**
 
-<p align="center"><a href="./Images/Image_29.png"><img src="./Images/Image_29.png" alt="配置 eFUSE 控制寄存器" width="760"></a></p>
+<p align="left"><a href="./Images/Image_29.png"><img src="./Images/Image_29.png" alt="配置 eFUSE 控制寄存器" width="760"></a></p>
 
 勾选 **Enable control register programming** 后，可按产品需求选择控制位。图中选择的 `R_EN_B_Key`、`R_EN_B_User` 和 `BBRAM_Key_Disable` 分别用于关闭 AES Key 读取、关闭 User Code 读取，以及规定安全启动使用 eFUSE Key。
 
 **步骤 5：执行烧录并检查控制台。**
 
-<p align="center"><a href="./Images/Image_30.png"><img src="./Images/Image_30.png" alt="eFUSE 烧录完成后的控制台信息" width="900"></a></p>
+<p align="left"><a href="./Images/Image_30.png"><img src="./Images/Image_30.png" alt="eFUSE 烧录完成后的控制台信息" width="900"></a></p>
 
 烧录结束后，Tcl Console 出现 `Device eFUSE successfully programmed` 表示工具已完成编程。控制台同时提示，加密 Bitstream 应通过非 JTAG 的安全启动路径加载。随后还应重新读取状态并通过匹配的加密镜像验证启动，而不能只以这条日志作为最终判据。
 
@@ -378,13 +378,13 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 **步骤 1：在 BSP 中加入 XilSKey 库。**
 
-<p align="center"><a href="./Images/Image_31.png"><img src="./Images/Image_31.png" alt="在 BSP 中加入 XilSKey 库" width="900"></a></p>
+<p align="left"><a href="./Images/Image_31.png"><img src="./Images/Image_31.png" alt="在 BSP 中加入 XilSKey 库" width="900"></a></p>
 
 在 BSP Settings 的 Supported Libraries 中勾选 `xilskey`，使 eFUSE 烧录应用能够调用 XilSKey 提供的接口和底层 JTAG 编程逻辑。
 
 **步骤 2：导入 eFUSE 示例工程。**
 
-<p align="center"><a href="./Images/Image_32.png"><img src="./Images/Image_32.png" alt="导入 eFUSE 编程示例工程" width="900"></a></p>
+<p align="left"><a href="./Images/Image_32.png"><img src="./Images/Image_32.png" alt="导入 eFUSE 编程示例工程" width="900"></a></p>
 
 在 `system.mss` 中点击 **Import Examples**，选择 `xilskey_efuse_example` 并导入。SDK 会生成示例源码和 `xilskey_input.h` 配置文件，后续修改主要集中在该头文件中。
 
@@ -404,57 +404,57 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 **配置 1：选择 PL eFUSE 驱动。**
 
-<p align="center"><a href="./Images/Image_33.png"><img src="./Images/Image_33.png" alt="启用 PL eFUSE 驱动"></a></p>
+<p align="left"><a href="./Images/Image_33.png"><img src="./Images/Image_33.png" alt="启用 PL eFUSE 驱动"></a></p>
 
 定义 `XSK_EFUSEPL_DRIVER` 表示本例操作 PL eFUSE；如果不需要烧录 PS eFUSE，则保持 `XSK_EFUSEPS_DRIVER` 未启用。
 
 **配置 2：写入与 NKY 一致的 AES Key。**
 
-<p align="center"><a href="./Images/Image_34.png"><img src="./Images/Image_34.png" alt="原工程中写入 XSK_EFUSEPL_AES_KEY 的 AES 值" width="900"></a></p>
+<p align="left"><a href="./Images/Image_34.png"><img src="./Images/Image_34.png" alt="原工程中写入 XSK_EFUSEPL_AES_KEY 的 AES 值" width="900"></a></p>
 
 将用于生成加密 `BOOT.bin` 的 AES Key 填入 `XSK_EFUSEPL_AES_KEY`。该值必须与 NKY 中的 `Key 0` 完全一致，否则器件无法正确解密镜像。
 
 **配置 3：启用 AES Key 烧录。**
 
-<p align="center"><a href="./Images/Image_35.png"><img src="./Images/Image_35.png" alt="启用 AES 与 User Low Key 烧录" width="760"></a></p>
+<p align="left"><a href="./Images/Image_35.png"><img src="./Images/Image_35.png" alt="启用 AES 与 User Low Key 烧录" width="760"></a></p>
 
 将 `XSK_EFUSEPL_PROGRAM_AES_AND_USER_LOW_KEY` 设为 `TRUE`，示例程序才会执行 AES Key 和 User Low Key 的烧录流程。
 
 **配置 4：按产品要求设置读保护。**
 
-<p align="center"><a href="./Images/Image_36.png"><img src="./Images/Image_36.png" alt="禁止读取 AES Key" width="760"></a></p>
+<p align="left"><a href="./Images/Image_36.png"><img src="./Images/Image_36.png" alt="禁止读取 AES Key" width="760"></a></p>
 
 将 `XSK_EFUSEPL_DISABLE_AES_KEY_READ` 设为 `TRUE`，会同时设置对应的 AES Key 读保护控制位，使后续软件不能再直接读取该密钥。
 
-<p align="center"><a href="./Images/Image_37.png"><img src="./Images/Image_37.png" alt="禁止读取 User Key" width="760"></a></p>
+<p align="left"><a href="./Images/Image_37.png"><img src="./Images/Image_37.png" alt="禁止读取 User Key" width="760"></a></p>
 
 将 `XSK_EFUSEPL_DISABLE_USER_KEY_READ` 设为 `TRUE`，用于关闭 User Key/User Code 的读取能力；是否启用取决于产品是否使用这一区域。
 
 **配置 5：选择安全启动使用的密钥源。**
 
-<p align="center"><a href="./Images/Image_38.png"><img src="./Images/Image_38.png" alt="禁止在安全启动中使用 BBRAM Key" width="760"></a></p>
+<p align="left"><a href="./Images/Image_38.png"><img src="./Images/Image_38.png" alt="禁止在安全启动中使用 BBRAM Key" width="760"></a></p>
 
 将 `XSK_EFUSEPL_BBRAM_KEY_DISABLE` 设为 `TRUE`，表示安全启动时使用 eFUSE Key，而不再允许使用 BBRAM Key。
 
 **配置 6：按照原理图填写 MIO/JTAG 映射。**
 
-<p align="center"><a href="./Images/Image_39.png"><img src="./Images/Image_39.png" alt="配置 MIO 与 JTAG 信号映射" width="600"></a></p>
+<p align="left"><a href="./Images/Image_39.png"><img src="./Images/Image_39.png" alt="配置 MIO 与 JTAG 信号映射" width="600"></a></p>
 
 按照板卡原理图填写 `TDI`、`TDO`、`TCK` 和 `TMS` 对应的 MIO 编号。图中的 51、49、50、46 只对应原验证板，移植时必须重新核对连线。
 
 **步骤 4：生成并部署 eFUSE 烧录镜像。**
 
-<p align="center"><a href="./Images/Image_40.png"><img src="./Images/Image_40.png" alt="使用 Bootgen 创建 eFUSE 烧录镜像" width="760"></a></p>
+<p align="left"><a href="./Images/Image_40.png"><img src="./Images/Image_40.png" alt="使用 Bootgen 创建 eFUSE 烧录镜像" width="760"></a></p>
 
 将 FSBL、Bitstream 和 XilSKey eFUSE 示例应用加入独立的启动镜像，使用 Bootgen 生成专门执行密钥烧录的 `eFUSE_BOOT.bin`。这个镜像的用途是启动烧录程序，不是最终产品固件。
 
-<p align="center"><a href="./Images/Image_41.png"><img src="./Images/Image_41.png" alt="生成的 eFUSE 烧录文件" width="600"></a></p>
+<p align="left"><a href="./Images/Image_41.png"><img src="./Images/Image_41.png" alt="生成的 eFUSE 烧录文件" width="600"></a></p>
 
 输出目录中的 `eFUSE_BOOT.bin` 是可写入 SD、QSPI 等启动介质的烧录镜像，旁边的 BIF 文件记录其分区组成，便于复核和重复构建。
 
 **步骤 5：启动烧录程序并检查状态。**
 
-<p align="center"><a href="./Images/Image_42.png"><img src="./Images/Image_42.png" alt="串口输出的 eFUSE 状态与原工程 AES Key" width="760"></a></p>
+<p align="left"><a href="./Images/Image_42.png"><img src="./Images/Image_42.png" alt="串口输出的 eFUSE 状态与原工程 AES Key" width="760"></a></p>
 
 烧录程序启动后会通过串口打印 PL eFUSE 状态，包括密钥写入、读取控制、Secure Boot、JTAG 和 BBRAM Key 等状态。图中状态为 `AES Key read enabled`，因此还能显示本次演示写入的完整 AES Key；如果后续烧录了 AES Key 读保护位，则应以状态位和匹配镜像成功启动进行验证，而不能再依赖读回密钥。
 
@@ -464,7 +464,7 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 **步骤 1：打开 Program Flash Memory 并配置写入参数。**
 
-<p align="center"><a href="./Images/Image_43.png"><img src="./Images/Image_43.png" alt="通过 SDK 将 BOOT.bin 写入 QSPI" width="600"></a></p>
+<p align="left"><a href="./Images/Image_43.png"><img src="./Images/Image_43.png" alt="通过 SDK 将 BOOT.bin 写入 QSPI" width="600"></a></p>
 
 在 **Program Flash Memory** 中选择最终的 `BOOT.bin`，指定与硬件平台匹配的 FSBL，并按板卡 Flash 连接方式选择 QSPI 类型。点击 **Program** 后将镜像写入启动 Flash。
 
@@ -474,7 +474,7 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 **步骤 1：完全断电后重新上电，并观察 FSBL 日志。**
 
-<p align="center"><a href="./Images/Image_44_46_Annotated.png"><img src="./Images/Image_44_46_Annotated.png" alt="安全启动日志：Bitstream 与 Application 均显示 Encrypted" width="900"></a></p>
+<p align="left"><a href="./Images/Image_44_46_Annotated.png"><img src="./Images/Image_44_46_Annotated.png" alt="安全启动日志：Bitstream 与 Application 均显示 Encrypted" width="900"></a></p>
 
 重新上电后，FSBL 日志应显示正确的 QSPI 启动模式和分区数量。图中红框标出的 `Bitstream Encrypted` 与 `Application Encrypted` 表明这两个分区按照加密属性进入了解密加载流程；若同时启用 RSA，还会出现 `RSA Signed` 和 `Authentication Done` 等认证结果。日志是流程观察结果，最终还应结合错误密钥和篡改镜像的负向测试确认防护是否生效。
 
@@ -491,7 +491,7 @@ PL eFUSE 有两种常见烧录方式：开发阶段可以通过 Vivado Hardware 
 
 对于 Multiboot，XAPP1175 要求 update image 和 golden image 的地址位于 32 KB 的整数倍。这个要求不能泛化成“所有 QSPI 认证镜像都必须固定放在 32 KB 偏移”。镜像位置应按具体启动模式、BIF 和官方文档设计。
 
-<p align="center"><a href="./Images/Image_04.png"><img src="./Images/Image_04.png" alt="原文关于 QSPI 32 KB 地址的说明" width="900"></a></p>
+<p align="left"><a href="./Images/Image_04.png"><img src="./Images/Image_04.png" alt="原文关于 QSPI 32 KB 地址的说明" width="900"></a></p>
 
 这张图说明的是 Multiboot 场景下 update image 与 golden image 的地址对齐要求。只有采用相应 Multiboot 布局时才需要按 32 KB 整数倍规划镜像地址，普通单镜像启动不能直接套用该偏移结论。
 
@@ -511,44 +511,7 @@ Zynq-7000 的部分 eFUSE 控制位具有永久效果：
 
 把不可逆控制位放到流程最后，可以降低因密钥、镜像或板级电源问题导致整批器件失效的风险。
 
-## 7. 量产安全检查表
-
-### 构建环境
-
-- [ ] 私钥、AES/HMAC 密钥不进入源码仓库；
-- [ ] 签名工作站与普通开发环境隔离；
-- [ ] 每次发布保存 BIF、Bootgen 版本、BOOT.bin 哈希和公开证书；
-- [ ] 构建日志不打印密钥或完整 `.nky` 内容；
-- [ ] 至少两人复核量产密钥文件和器件型号。
-
-### 器件烧录
-
-- [ ] 器件电源、电压、温度和 JTAG/MIO 连接满足编程要求；
-- [ ] 在专用样片上完整跑通一次流程；
-- [ ] 先烧录密钥，再验证启动，最后烧录限制性控制位；
-- [ ] 烧录后读取允许读取的状态位并记录；
-- [ ] 使用正确、错误和被篡改镜像进行正向与负向测试。
-
-### 产品生命周期
-
-- [ ] 定义密钥泄露后的处置方案；
-- [ ] 定义安全升级、掉电恢复和 Golden Image 方案；
-- [ ] 明确 JTAG 永久关闭后如何进行故障诊断；
-- [ ] 评估共享密钥失陷对整批设备的影响。
-
-## 8. 安全边界
-
-Zynq-7000 安全启动可以显著提高镜像复制、离线逆向和恶意替换的难度，但它不是完整的产品安全体系。以下问题仍需系统级设计：
-
-- Linux、U-Boot 和应用程序的运行时漏洞；
-- 网络升级服务和运维账户安全；
-- 私钥或 AES 密钥在构建环境中的泄露；
-- 侧信道、故障注入和高成本物理攻击；
-- 启动失败后的恢复和审计。
-
-真正可靠的方案应把器件安全启动、签名基础设施、生产烧录、升级协议和软件漏洞管理放在同一套信任模型中考虑。
-
-## 9. 参考资料
+## 7. 参考资料
 
 - [UG585 — Zynq-7000 SoC Technical Reference Manual](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Device-Secure-Boot)
 - [UG821 — Zynq-7000 SoC Software Developers Guide](https://docs.amd.com/r/en-US/ug821-zynq-7000-swdev/Boot-and-Configuration)
