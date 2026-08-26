@@ -12,6 +12,10 @@ In addition to technical content, this repository also includes personal writing
 
 ## Technical Notes
 
+### Device Architecture and Resources
+
+* [Zynq-7000 Device Architecture and Resource Overview](./FPGA/Zynq7000_Resource_Overview/Zynq7000_Resource_Overview_EN.md)
+
 ### Digital Signal Processing
 
 * [FPGA Magnitude Spectrum Calculation and Simulation Verification](./FPGA/Magnitude_Spectrum/Magnitude_Spectrum_EN.md)

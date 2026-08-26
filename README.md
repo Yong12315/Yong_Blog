@@ -12,6 +12,10 @@
 
 ## 技术笔记
 
+### 器件架构与资源
+
+* [Zynq-7000 器件架构与资源介绍](./FPGA/Zynq7000_Resource_Overview/Zynq7000_Resource_Overview.md)
+
 ### 数字信号处理
 
 * [基于 FPGA 的幅度谱计算与仿真验证](./FPGA/Magnitude_Spectrum/Magnitude_Spectrum.md)
